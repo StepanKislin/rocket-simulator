@@ -7,7 +7,7 @@ ground.src = "img/space.png";
 const rocketImg = new Image();
 rocketImg.src = "img/rocket.png";
 
-const asteroidImg = new Image();  // ✅ Переименовано: arsenImg → asteroidImg
+const asteroidImg = new Image();
 asteroidImg.src = "img/asteroid.png";
 
 const moneyImg = new Image();
@@ -24,7 +24,7 @@ document.addEventListener('keydown', function(event) {
 
     let gameActive = true;
 
-    let asteroids = [];  // ✅ Переименовано: arsen → asteroids
+    let asteroids = [];
 
     let rocket = [];
     rocket[0] = {
@@ -51,7 +51,7 @@ document.addEventListener('keydown', function(event) {
       time <= 0 ? clearInterval(timer) : time--;
     }, 1000);
 
-    function createNewCoin() {  // Переименовал для ясности
+    function createNewCoin() {
       let newCoin = {
         x: Math.floor(Math.random() * 10) * box,
         y: 0
@@ -60,12 +60,12 @@ document.addEventListener('keydown', function(event) {
     }
     setInterval(createNewCoin, 2000);
 
-    function createNewAsteroid() {  // ✅ Переименовано: newArsen → createNewAsteroid
+    function createNewAsteroid() {
       let newAsteroid = {
         x: Math.floor(Math.random() * 10) * box,
         y: 0
       };
-      asteroids.push(newAsteroid);  // ✅ Исправлено: arsen → asteroids
+      asteroids.push(newAsteroid);
     }
 
     setInterval(createNewAsteroid, 2000);
@@ -73,8 +73,6 @@ document.addEventListener('keydown', function(event) {
     function drawGame() {
       ctx.drawImage(ground, 0, 0);
 
-      // ❌ Было: ctx.drawImage(arsenImg, arsen.x, arsen.y); — ОШИБКА! arsen — массив
-      // ✅ Исправлено: рисуем все астероиды в цикле
 
       ctx.drawImage(rocketImg, rocket[0].x, rocket[0].y);
 
@@ -84,9 +82,8 @@ document.addEventListener('keydown', function(event) {
         coins[i].y += box / 6;
       }
 
-      // ✅ Рисуем астероиды
       for (let i = 0; i < asteroids.length; i++) {
-        ctx.drawImage(asteroidImg, asteroids[i].x, asteroids[i].y);  // ✅ asteroidImg
+        ctx.drawImage(asteroidImg, asteroids[i].x, asteroids[i].y);
         asteroids[i].y += box / 5;
       }
 
@@ -97,23 +94,19 @@ document.addEventListener('keydown', function(event) {
       let rocketX = rocket[0].x;
       let rocketY = rocket[0].y;
 
-      // ❌ Удалено: arsen.y += box / 3; — это бессмысленно, т.к. arsen — массив
 
-      // Ограничение по краям
       if (rocketX > 576) {
         dir = "left";
       } else if (rocketX < 0) {
         dir = "right";
       }
 
-      // Проверка окончания времени
       if (time <= 0) {
         $('#game-over').css("display", "grid");
         $('#game').css("display", "none");
         gameActive = false;
       }
 
-      // ✅ Проверка столкновений с астероидами
       for (let i = 0; i < asteroids.length; i++) {
         if (
             rocketX < asteroids[i].x + box &&
@@ -128,7 +121,6 @@ document.addEventListener('keydown', function(event) {
         }
       }
 
-      // Проверка сбора монет
       for (let i = 0; i < coins.length; i++) {
         if (
             rocketX < coins[i].x + box &&
