@@ -4,22 +4,191 @@
     <meta charset="UTF-8">
     <title>Космическая игра</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0a0a2a;color:white;font:24px Arial;text-align:center}
-        .screen{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:10}
-        #game-screen,#stats-screen{display:none}
-        button{padding:15px 40px;background:#4a86e8;color:white;border:none;border-radius:10px;cursor:pointer;margin:20px}
-        button:hover{background:#5a96f8;transform:scale(1.05);transition:all .2s}
-        button:disabled{background:#7f9fc9;cursor:not-allowed}
-        #game{width:800px;height:600px;position:relative;background:#000;margin:0 auto;overflow:hidden;border:3px solid #4a86e8}
-        .hud{position:absolute;top:15px;left:15px;text-align:left;background:rgba(0,0,0,.7);padding:10px;border-radius:5px}
-        .health-bar{position:absolute;top:15px;right:15px;width:200px;height:25px;background:#333;border:2px solid white}
-        .health-fill{height:100%;background:#4caf50;width:100%}
-        .obj{position:absolute;background-size:contain;background-repeat:no-repeat}
-        h1{font-size:48px;margin-bottom:30px;color:#4a86e8;text-shadow:0 0 10px #4a86e8}
-        .stats-item{font-size:28px;margin:15px 0;color:#f1c40f}
-        .stats-label{color:#4a86e8;font-size:22px}
-        input{padding:15px;font:24px Arial;border:3px solid #4a86e8;border-radius:10px;margin:20px;text-align:center}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a2a;
+            color: white;
+            font: 24px Arial;
+            text-align: center;
+        }
+        
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            background: rgba(10, 10, 42, 0.92);
+        }
+        
+        #game-screen,
+        #stats-screen {
+            display: none;
+        }
+        
+        button {
+            padding: 16px 48px;
+            background: linear-gradient(to bottom, #4a86e8, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 18px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(74, 134, 232, 0.6);
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: linear-gradient(to bottom, #5a96f8, #3a62a8);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 134, 232, 0.8);
+        }
+        
+        button:disabled {
+            background: #5a6a8a;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        #game {
+            width: 800px;
+            height: 600px;
+            position: relative;
+            background: #000 url('img/space.png') repeat;
+            margin: 20px auto;
+            overflow: hidden;
+            border: 4px solid #4a86e8;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(74, 134, 232, 0.7);
+        }
+        
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: left;
+            background: rgba(0, 10, 30, 0.85);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #4a86e8;
+            min-width: 180px;
+            font-size: 20px;
+            z-index: 100;
+        }
+        
+        .health-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 220px;
+            height: 30px;
+            background: #222;
+            border: 3px solid #444;
+            border-radius: 15px;
+            overflow: hidden;
+            z-index: 100;
+        }
+        
+        .health-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #ff4444, #ffaa00, #44ff44);
+            border-radius: 12px;
+            transition: width 0.3s;
+        }
+        
+        .shield-indicator {
+            position: absolute;
+            top: 20px;
+            right: 260px;
+            width: 40px;
+            height: 40px;
+            background: #4a86e8;
+            border-radius: 50%;
+            border: 3px solid white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+            box-shadow: 0 0 15px rgba(74, 134, 232, 0.8);
+        }
+        
+        .obj {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .coin,
+        .box {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .eb {
+            transform: scaleY(-1);
+        }
+        
+        h1 {
+            font-size: 56px;
+            margin-bottom: 35px;
+            color: #4a86e8;
+            text-shadow: 0 0 15px rgba(74, 134, 232, 0.8);
+            letter-spacing: 3px;
+        }
+        
+        .stats-item {
+            font-size: 32px;
+            margin: 20px 0;
+            color: #f1c40f;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
+        }
+        
+        .stats-label {
+            color: #4a86e8;
+            font-size: 26px;
+            margin-left: 10px;
+        }
+        
+        input {
+            padding: 16px;
+            font-size: 24px;
+            border: 3px solid #4a86e8;
+            border-radius: 50px;
+            margin: 25px;
+            text-align: center;
+            background: rgba(20, 20, 50, 0.8);
+            color: white;
+            width: 300px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #a0c0ff;
+            box-shadow: 0 0 20px rgba(160, 192, 255, 0.6);
+        }
+        
+        .instructions {
+            background: rgba(30, 30, 60, 0.85);
+            padding: 15px 30px;
+            border-radius: 50px;
+            margin-top: 25px;
+            font-size: 18px;
+            border: 2px solid #4a86e8;
+        }
     </style>
 </head>
 <body>
@@ -27,7 +196,7 @@
         <h1>КОСМИЧЕСКАЯ ИГРА</h1>
         <input type="text" id="name" placeholder="Ваше имя" maxlength="15">
         <button id="start-btn" disabled>НАЧАТЬ</button>
-        <p style="font-size:18px;margin-top:30px">Управление: WASD или стрелки</p>
+        <div class="instructions">Управление: WASD/стрелки | Стрельба: Пробел</div>
     </div>
 
     <div id="game-screen">
@@ -37,52 +206,87 @@
                 <div>Монеты: <span id="coins">0</span></div>
                 <div>Патроны: <span id="ammo">30</span></div>
             </div>
-            <div class="health-bar"><div class="health-fill" id="health"></div></div>
+            <div class="health-bar">
+                <div class="health-fill" id="health"></div>
+            </div>
+            <div class="shield-indicator" id="shield"></div>
         </div>
     </div>
 
     <div id="stats-screen" class="screen">
         <h1>ИГРА ОКОНЧЕНА</h1>
-        <div class="stats-item">Время: <span class="stats-label" id="time">00:00</span></div>
-        <div class="stats-item">Монет: <span class="stats-label" id="stat-coins">0</span></div>
-        <div class="stats-item">Врагов: <span class="stats-label" id="stat-enemies">0</span></div>
+        <div class="stats-item">Время: <span class="stats-label" id="final-time">00:00</span></div>
+        <div class="stats-item">Монет: <span class="stats-label" id="final-coins">0</span></div>
+        <div class="stats-item">Врагов: <span class="stats-label" id="final-enemies">0</span></div>
         <button id="restart-btn">НОВАЯ ИГРА</button>
         <button id="menu-btn">МЕНЮ</button>
     </div>
 
     <script>
-        // Загрузка картинок
-        const img = {};
-        ['space','rocket','asteroid','box','bullet','enemy','money'].forEach(n=>{
-            img[n]=new Image(); img[n].src='img/'+n+'.png'
+        // Загрузка изображений
+        const images = {};
+        ['space', 'rocket', 'asteroid', 'box', 'bullet', 'enemy', 'money'].forEach(name => {
+            images[name] = new Image();
+            images[name].src = 'img/' + name + '.png';
         });
-
+        
         class Game {
             constructor() {
-                this.g = document.getElementById('game');
-                this.w = 800; this.h = 600;
-                this.t = 0; this.c = 0; this.a = 30;
-                this.hp = 100; this.shield = false; this.run = false;
+                this.gameArea = document.getElementById('game');
+                this.width = 800;
+                this.height = 600;
+                
+                this.time = 0;
+                this.coins = 0;
+                this.ammo = 30;
+                this.health = 100;
+                
+                this.running = false;
+                this.hasShield = false;
                 this.keys = {};
                 
-                this.p = {x:this.w/2-30, y:this.h-80, w:60, h:80, vx:0, vy:0, max:7, img:img.rocket};
+                // Игрок
+                this.player = {
+                    x: this.width / 2 - 30,
+                    y: this.height - 80,
+                    width: 60,
+                    height: 80,
+                    speed: 7,
+                    img: images.rocket
+                };
                 
-                this.enemies = []; this.asteroids = [];
-                this.coins = []; this.boxes = [];
-                this.pBullets = []; this.eBullets = [];
+                this.reset();
                 
-                this.stats = {time:0, coins:0, enemies:0};
-                this.lastEnemy = 0; this.lastShot = 0;
+                this.stats = {
+                    time: 0,
+                    coins: 0,
+                    enemies: 0
+                };
+                
+                this.lastEnemyTime = 0;
+                this.lastShotTime = 0;
                 
                 this.init();
             }
             
+            // Очистка всех игровых объектов
+            reset() {
+                this.enemies = [];
+                this.asteroids = [];
+                this.coinItems = [];
+                this.boxes = [];
+                this.playerBullets = [];
+                this.enemyBullets = [];
+            }
+            
+            // Инициализация обработчиков событий
             init() {
-                // Поле имени
-                document.getElementById('name').oninput = e => 
-                    document.getElementById('start-btn').disabled = e.target.value.trim() === '';
+                // Включение кнопки "Начать" при вводе имени
+                document.getElementById('name').oninput = event => {
+                    document.getElementById('start-btn').disabled = event.target.value.trim() === '';
+                };
                 
-                // Кнопки
+                // Кнопки управления
                 document.getElementById('start-btn').onclick = () => this.start();
                 document.getElementById('restart-btn').onclick = () => this.start();
                 document.getElementById('menu-btn').onclick = () => {
@@ -90,242 +294,421 @@
                     document.getElementById('start-screen').style.display = 'flex';
                 };
                 
-                // Клавиатура
-                document.onkeydown = e => this.keys[e.key.toLowerCase()] = true;
-                document.onkeyup = e => this.keys[e.key.toLowerCase()] = false;
+                // Управление клавишами
+                document.onkeydown = event => this.keys[event.key.toLowerCase()] = true;
+                document.onkeyup = event => this.keys[event.key.toLowerCase()] = false;
                 
-                // Спавн объектов
-                setInterval(() => { if(this.run) this.addAsteroid() }, 2000);
-                setInterval(() => { if(this.run) this.addCoin() }, 2000);
-                setInterval(() => { if(this.run) this.addBox() }, 10000);
-                setInterval(() => { if(this.run) this.addEnemy() }, 10000);
-                setInterval(() => { if(this.run) { this.t++; this.updateTime() } }, 1000);
-                setInterval(() => { if(this.run && this.keys[' '] && this.a>0 && Date.now()-this.lastShot>200) this.shoot() }, 50);
+                // Генерация объектов
+                setInterval(() => { if (this.running) this.addAsteroid(); }, 2000);
+                setInterval(() => { if (this.running) this.addCoin(); }, 2000);
+                setInterval(() => { if (this.running) this.addBox(); }, 10000);
+                setInterval(() => { if (this.running) this.addEnemy(); }, 10000);
+                setInterval(() => { if (this.running) { this.time++; this.updateTime(); }}, 1000);
                 
+                // Стрельба
+                setInterval(() => { 
+                    if (this.running && this.keys[' '] && this.ammo > 0 && Date.now() - this.lastShotTime > 200) {
+                        this.shoot();
+                    }
+                }, 50);
+                
+                // Запуск игрового цикла
                 this.loop();
             }
             
+            // Начало новой игры
             start() {
                 document.getElementById('start-screen').style.display = 'none';
                 document.getElementById('stats-screen').style.display = 'none';
                 document.getElementById('game-screen').style.display = 'block';
                 
-                this.t = 0; this.c = 0; this.a = 30;
-                this.hp = 100; this.shield = false; this.run = true;
+                this.time = 0;
+                this.coins = 0;
+                this.ammo = 30;
+                this.health = 100;
+                this.running = true;
+                this.hasShield = false;
                 
-                this.p.x = this.w/2-30; this.p.y = this.h-80;
-                this.p.img = img.rocket;
+                this.player.x = this.width / 2 - 30;
+                this.player.y = this.height - 80;
+                this.player.img = images.rocket;
                 
-                this.enemies = []; this.asteroids = [];
-                this.coins = []; this.boxes = [];
-                this.pBullets = []; this.eBullets = [];
+                this.reset();
                 
-                this.stats = {time:0, coins:0, enemies:0};
-                this.lastEnemy = Date.now(); this.lastShot = 0;
+                this.stats = { time: 0, coins: 0, enemies: 0 };
+                this.lastEnemyTime = Date.now();
+                this.lastShotTime = 0;
                 
-                this.updateHP();
+                this.updateHealthBar();
+                
                 document.getElementById('timer').textContent = '00:00';
                 document.getElementById('coins').textContent = '0';
                 document.getElementById('ammo').textContent = '30';
+                document.getElementById('shield').style.opacity = '0';
             }
             
+            // Обновление таймера
             updateTime() {
-                let m = Math.floor(this.t/60).toString().padStart(2,'0');
-                let s = (this.t%60).toString().padStart(2,'0');
-                document.getElementById('timer').textContent = m+':'+s;
+                let minutes = Math.floor(this.time / 60).toString().padStart(2, '0');
+                let seconds = (this.time % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = minutes + ':' + seconds;
             }
             
+            // Добавление астероида
             addAsteroid() {
                 this.asteroids.push({
-                    x: Math.random()*(this.w-60),
-                    y: -60, w: 60, h: 60,
-                    s: 3+Math.random()*2,
-                    img: img.asteroid
+                    x: Math.random() * (this.width - 60),
+                    y: -60,
+                    width: 60,
+                    height: 60,
+                    speed: 3 + Math.random() * 2,
+                    img: images.asteroid
                 });
             }
             
+            // Добавление монеты
             addCoin() {
-                this.coins.push({
-                    x: Math.random()*(this.w-50),
-                    y: -60, w: 50, h: 50,
-                    s: 2+Math.random(),
-                    img: img.money
+                this.coinItems.push({
+                    x: Math.random() * (this.width - 50),
+                    y: -60,
+                    width: 50,
+                    height: 50,
+                    speed: 2 + Math.random(),
+                    img: images.money
                 });
             }
             
+            // Добавление ящика с патронами
             addBox() {
                 this.boxes.push({
-                    x: Math.random()*(this.w-50),
-                    y: -60, w: 50, h: 50,
-                    s: 2+Math.random(),
-                    img: img.box
+                    x: Math.random() * (this.width - 50),
+                    y: -60,
+                    width: 50,
+                    height: 50,
+                    speed: 2 + Math.random(),
+                    img: images.box
                 });
             }
             
+            // Добавление врага
             addEnemy() {
-                if(Date.now() - this.lastEnemy < 10000) return;
+                if (Date.now() - this.lastEnemyTime < 10000) return;
+                
                 this.enemies.push({
-                    x: Math.random()*(this.w-100),
-                    y: 50, w: 100, h: 70,
-                    vx: (Math.random()>0.5?1:-1)*(2+Math.random()*2),
-                    hp: [10,20,30][Math.floor(Math.random()*3)],
-                    ls: Date.now(),
-                    img: img.enemy
+                    x: Math.random() * (this.width - 100),
+                    y: 50,
+                    width: 100,
+                    height: 70,
+                    vx: (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2),
+                    health: [10, 20, 30][Math.floor(Math.random() * 3)],
+                    lastShot: Date.now(),
+                    img: images.enemy
                 });
-                this.lastEnemy = Date.now();
+                
+                this.lastEnemyTime = Date.now();
             }
             
+            // Стрельба игрока
             shoot() {
-                this.a--; this.lastShot = Date.now();
-                document.getElementById('ammo').textContent = this.a;
-                this.pBullets.push({
-                    x: this.p.x+26, y: this.p.y-30,
-                    w: 12, h: 35, s: -12,
-                    img: img.bullet
+                this.ammo--;
+                this.lastShotTime = Date.now();
+                document.getElementById('ammo').textContent = this.ammo;
+                
+                this.playerBullets.push({
+                    x: this.player.x + 26,
+                    y: this.player.y - 30,
+                    width: 12,
+                    height: 35,
+                    speed: -12,
+                    img: images.bullet
                 });
             }
             
-            hit(a,b) {
-                return a.x < b.x+b.w-10 && a.x+a.w-10 > b.x &&
-                       a.y < b.y+b.h-10 && a.y+a.h-10 > b.y;
+            // Проверка столкновений
+            checkCollision(a, b) {
+                return a.x < b.x + b.width - 10 && 
+                       a.x + a.width - 10 > b.x && 
+                       a.y < b.y + b.height - 10 && 
+                       a.y + a.height - 10 > b.y;
             }
             
-            shieldOn() {
-                this.shield = true; this.p.img = img.bullet;
-                setTimeout(() => { this.shield = false; this.p.img = img.rocket }, 5000);
+            // Активация щита
+            activateShield() {
+                this.hasShield = true;
+                this.player.img = images.bullet;
+                document.getElementById('shield').style.opacity = '1';
+                
+                setTimeout(() => {
+                    this.hasShield = false;
+                    this.player.img = images.rocket;
+                    document.getElementById('shield').style.opacity = '0';
+                }, 5000);
             }
             
+            // Обновление состояния игры
             update() {
-                if(!this.run) return;
+                if (!this.running) return;
                 
-                // Движение игрока
-                this.p.vx = 0; this.p.vy = 0;
-                if(this.keys['a']||this.keys['arrowleft']) this.p.vx = -this.p.max;
-                if(this.keys['d']||this.keys['arrowright']) this.p.vx = this.p.max;
-                if(this.keys['w']||this.keys['arrowup']) this.p.vy = -this.p.max;
-                if(this.keys['s']||this.keys['arrowdown']) this.p.vy = this.p.max;
+                // Управление игроком
+                this.player.vx = 0;
+                this.player.vy = 0;
                 
-                this.p.x += this.p.vx; this.p.y += this.p.vy;
-                this.p.x = Math.max(0, Math.min(this.p.x, this.w-this.p.w));
-                this.p.y = Math.max(0, Math.min(this.p.y, this.h-this.p.h));
+                if (this.keys['a'] || this.keys['arrowleft']) this.player.vx = -this.player.speed;
+                if (this.keys['d'] || this.keys['arrowright']) this.player.vx = this.player.speed;
+                if (this.keys['w'] || this.keys['arrowup']) this.player.vy = -this.player.speed;
+                if (this.keys['s'] || this.keys['arrowdown']) this.player.vy = this.player.speed;
                 
-                // Враги
-                for(let i=this.enemies.length-1; i>=0; i--) {
-                    let e = this.enemies[i];
-                    e.x += e.vx;
-                    if(e.x<=0 || e.x>=this.w-e.w) e.vx *= -1;
-                    if(Date.now()-e.ls>1000 && Math.random()>0.7) {
-                        this.eBullets.push({x:e.x+e.w/2-6, y:e.y+e.h+5, w:12, h:35, s:8, img:img.bullet});
-                        e.ls = Date.now();
+                this.player.x += this.player.vx;
+                this.player.y += this.player.vy;
+                
+                // Ограничение границ
+                this.player.x = Math.max(0, Math.min(this.player.x, this.width - this.player.width));
+                this.player.y = Math.max(0, Math.min(this.player.y, this.height - this.player.height));
+                
+                // Обновление врагов
+                for (let i = this.enemies.length - 1; i >= 0; i--) {
+                    let enemy = this.enemies[i];
+                    enemy.x += enemy.vx;
+                    
+                    // Отскок от стен
+                    if (enemy.x <= 0 || enemy.x >= this.width - enemy.width) {
+                        enemy.vx *= -1;
+                    }
+                    
+                    // Стрельба врагов
+                    if (Date.now() - enemy.lastShot > 1000 && Math.random() > 0.7) {
+                        this.enemyBullets.push({
+                            x: enemy.x + enemy.width / 2 - 6,
+                            y: enemy.y + enemy.height + 5,
+                            width: 12,
+                            height: 35,
+                            speed: 8,
+                            img: images.bullet
+                        });
+                        enemy.lastShot = Date.now();
                     }
                 }
                 
-                // Астероиды
-                for(let i=this.asteroids.length-1; i>=0; i--) {
-                    let a = this.asteroids[i]; a.y += a.s;
-                    for(let j=this.pBullets.length-1; j>=0; j--) if(this.hit(this.pBullets[j], a)) { this.pBullets.splice(j,1); break; }
-                    for(let j=this.eBullets.length-1; j>=0; j--) if(this.hit(this.eBullets[j], a)) { this.eBullets.splice(j,1); break; }
-                    if(this.hit(this.p, a) && !this.shield) { this.hp -= 20; this.updateHP(); if(this.hp<=0) this.end(); }
-                    if(a.y>this.h || this.hit(this.p, a)) this.asteroids.splice(i,1);
-                }
-                
-                // Монеты
-                for(let i=this.coins.length-1; i>=0; i--) {
-                    let c = this.coins[i]; c.y += c.s;
-                    if(this.hit(this.p, c)) {
-                        this.c++; document.getElementById('coins').textContent = this.c; this.stats.coins = this.c;
-                        if(this.c >= 5) { this.shieldOn(); this.c = 0; document.getElementById('coins').textContent = '0'; }
-                        this.coins.splice(i,1);
-                    } else if(c.y>this.h) this.coins.splice(i,1);
-                }
-                
-                // Коробки
-                for(let i=this.boxes.length-1; i>=0; i--) {
-                    let b = this.boxes[i]; b.y += b.s;
-                    if(this.hit(this.p, b)) { this.a += 10; document.getElementById('ammo').textContent = this.a; this.boxes.splice(i,1); }
-                    else if(b.y>this.h) this.boxes.splice(i,1);
-                }
-                
-                // Пули игрока
-                for(let i=this.pBullets.length-1; i>=0; i--) {
-                    let b = this.pBullets[i]; b.y += b.s; let h = false;
-                    for(let j=this.enemies.length-1; j>=0; j--) {
-                        if(this.hit(b, this.enemies[j])) {
-                            this.enemies[j].hp -= 10;
-                            if(this.enemies[j].hp <= 0) { this.enemies.splice(j,1); this.stats.enemies++; this.lastEnemy = Date.now(); }
-                            h = true; break;
+                // Обновление астероидов
+                for (let i = this.asteroids.length - 1; i >= 0; i--) {
+                    let asteroid = this.asteroids[i];
+                    asteroid.y += asteroid.speed;
+                    
+                    // Удаление пуль при столкновении с астероидом
+                    for (let j = this.playerBullets.length - 1; j >= 0; j--) {
+                        if (this.checkCollision(this.playerBullets[j], asteroid)) {
+                            this.playerBullets.splice(j, 1);
+                            break;
                         }
                     }
-                    if(h || b.y<-30) this.pBullets.splice(i,1);
+                    
+                    for (let j = this.enemyBullets.length - 1; j >= 0; j--) {
+                        if (this.checkCollision(this.enemyBullets[j], asteroid)) {
+                            this.enemyBullets.splice(j, 1);
+                            break;
+                        }
+                    }
+                    
+                    // Столкновение с игроком
+                    if (this.checkCollision(this.player, asteroid) && !this.hasShield) {
+                        this.health -= 20;
+                        this.updateHealthBar();
+                        if (this.health <= 0) this.end();
+                    }
+                    
+                    // Удаление астероидов
+                    if (asteroid.y > this.height || this.checkCollision(this.player, asteroid)) {
+                        this.asteroids.splice(i, 1);
+                    }
                 }
                 
-                // Пули врагов
-                for(let i=this.eBullets.length-1; i>=0; i--) {
-                    let b = this.eBullets[i]; b.y += b.s;
-                    if(this.hit(b, this.p) && !this.shield) { this.hp -= 10; this.updateHP(); if(this.hp<=0) this.end(); this.eBullets.splice(i,1); }
-                    else if(b.y>this.h) this.eBullets.splice(i,1);
+                // Обновление монет
+                for (let i = this.coinItems.length - 1; i >= 0; i--) {
+                    let coin = this.coinItems[i];
+                    coin.y += coin.speed;
+                    
+                    if (this.checkCollision(this.player, coin)) {
+                        this.coins++;
+                        document.getElementById('coins').textContent = this.coins;
+                        this.stats.coins = this.coins;
+                        
+                        // Активация щита каждые 5 монет
+                        if (this.coins > 0 && this.coins % 5 === 0 && !this.hasShield) {
+                            this.activateShield();
+                        }
+                        
+                        this.coinItems.splice(i, 1);
+                    } else if (coin.y > this.height) {
+                        this.coinItems.splice(i, 1);
+                    }
+                }
+                
+                // Обновление ящиков
+                for (let i = this.boxes.length - 1; i >= 0; i--) {
+                    let box = this.boxes[i];
+                    box.y += box.speed;
+                    
+                    if (this.checkCollision(this.player, box)) {
+                        this.ammo += 10;
+                        document.getElementById('ammo').textContent = this.ammo;
+                        this.boxes.splice(i, 1);
+                    } else if (box.y > this.height) {
+                        this.boxes.splice(i, 1);
+                    }
+                }
+                
+                // Обновление пуль игрока
+                for (let i = this.playerBullets.length - 1; i >= 0; i--) {
+                    let bullet = this.playerBullets[i];
+                    bullet.y += bullet.speed;
+                    let hit = false;
+                    
+                    // Проверка попадания во врагов
+                    for (let j = this.enemies.length - 1; j >= 0; j--) {
+                        if (this.checkCollision(bullet, this.enemies[j])) {
+                            this.enemies[j].health -= 10;
+                            
+                            if (this.enemies[j].health <= 0) {
+                                this.enemies.splice(j, 1);
+                                this.stats.enemies++;
+                                this.lastEnemyTime = Date.now();
+                            }
+                            
+                            hit = true;
+                            break;
+                        }
+                    }
+                    
+                    if (hit || bullet.y < -30) {
+                        this.playerBullets.splice(i, 1);
+                    }
+                }
+                
+                // Обновление пуль врагов
+                for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
+                    let bullet = this.enemyBullets[i];
+                    bullet.y += bullet.speed;
+                    
+                    if (this.checkCollision(bullet, this.player) && !this.hasShield) {
+                        this.health -= 10;
+                        this.updateHealthBar();
+                        if (this.health <= 0) this.end();
+                        this.enemyBullets.splice(i, 1);
+                    } else if (bullet.y > this.height) {
+                        this.enemyBullets.splice(i, 1);
+                    }
                 }
                 
                 // Столкновение с врагами
-                for(let i=this.enemies.length-1; i>=0; i--) {
-                    if(this.hit(this.p, this.enemies[i]) && !this.shield) {
-                        this.enemies[i].hp -= 20;
-                        if(this.enemies[i].hp <= 0) { this.enemies.splice(i,1); this.stats.enemies++; this.lastEnemy = Date.now(); }
-                        else { this.hp -= 10; this.updateHP(); if(this.hp<=0) this.end(); }
+                for (let i = this.enemies.length - 1; i >= 0; i--) {
+                    if (this.checkCollision(this.player, this.enemies[i]) && !this.hasShield) {
+                        this.enemies[i].health -= 20;
+                        
+                        if (this.enemies[i].health <= 0) {
+                            this.enemies.splice(i, 1);
+                            this.stats.enemies++;
+                            this.lastEnemyTime = Date.now();
+                        } else {
+                            this.health -= 10;
+                            this.updateHealthBar();
+                            if (this.health <= 0) this.end();
+                        }
                     }
                 }
             }
             
-            updateHP() {
+            // Обновление полосы здоровья
+            updateHealthBar() {
                 let bar = document.getElementById('health');
-                bar.style.width = this.hp + '%';
-                bar.style.background = this.hp<30 ? '#e74c3c' : this.hp<60 ? '#f39c12' : '#4caf50';
-            }
-            
-            render() {
-                if(!this.run) return;
-                while(this.g.children.length > 2) this.g.removeChild(this.g.lastChild);
-                if(img.space.complete) {
-                    this.g.style.backgroundImage = 'url('+img.space.src+')';
-                    this.g.style.backgroundRepeat = 'repeat';
+                bar.style.width = this.health + '%';
+                
+                if (this.health < 30) {
+                    bar.style.background = '#ff3333';
+                } else if (this.health < 60) {
+                    bar.style.background = '#ffcc00';
+                } else {
+                    bar.style.background = '#44cc44';
                 }
-                this.draw(this.p, 'player');
-                this.enemies.forEach(e => this.draw(e, 'enemy'));
-                this.asteroids.forEach(a => this.draw(a, 'asteroid'));
-                this.coins.forEach(c => { let el=this.draw(c,'coin'); el.style.width='50px'; el.style.height='50px'; });
-                this.boxes.forEach(b => { let el=this.draw(b,'box'); el.style.width='50px'; el.style.height='50px'; });
-                this.pBullets.forEach(b => this.draw(b, 'bullet'));
-                this.eBullets.forEach(b => { let el=this.draw(b,'eb'); el.style.transform='scaleY(-1)'; });
             }
             
-            draw(o, cls) {
-                let el = document.createElement('div');
-                el.className = 'obj '+cls;
-                if(o.img && o.img.complete) el.style.backgroundImage = 'url('+o.img.src+')';
-                el.style.left = o.x+'px'; el.style.top = o.y+'px';
-                el.style.width = o.w+'px'; el.style.height = o.h+'px';
-                this.g.appendChild(el);
-                return el;
+            // Отрисовка игры
+            render() {
+                if (!this.running) return;
+                
+                // Очистка игрового поля (оставляем только HUD и индикатор щита)
+                while (this.gameArea.children.length > 3) {
+                    this.gameArea.removeChild(this.gameArea.lastChild);
+                }
+                
+                // Отрисовка объектов
+                this.draw(this.player, 'player');
+                this.enemies.forEach(enemy => this.draw(enemy, 'enemy'));
+                this.asteroids.forEach(asteroid => this.draw(asteroid, 'asteroid'));
+                
+                this.coinItems.forEach(coin => {
+                    let element = this.draw(coin, 'coin');
+                    element.style.width = '50px';
+                    element.style.height = '50px';
+                });
+                
+                this.boxes.forEach(box => {
+                    let element = this.draw(box, 'box');
+                    element.style.width = '50px';
+                    element.style.height = '50px';
+                });
+                
+                this.playerBullets.forEach(bullet => this.draw(bullet, 'bullet'));
+                
+                this.enemyBullets.forEach(bullet => {
+                    let element = this.draw(bullet, 'eb');
+                    element.style.transform = 'scaleY(-1)';
+                });
             }
             
+            // Создание игрового объекта на экране
+            draw(object, className) {
+                let element = document.createElement('div');
+                element.className = 'obj ' + className;
+                
+                if (object.img && object.img.complete) {
+                    element.style.backgroundImage = 'url(' + object.img.src + ')';
+                }
+                
+                element.style.left = object.x + 'px';
+                element.style.top = object.y + 'px';
+                element.style.width = object.width + 'px';
+                element.style.height = object.height + 'px';
+                
+                this.gameArea.appendChild(element);
+                return element;
+            }
+            
+            // Конец игры
             end() {
-                this.run = false; this.stats.time = this.t;
-                let m = Math.floor(this.stats.time/60).toString().padStart(2,'0');
-                let s = (this.stats.time%60).toString().padStart(2,'0');
-                document.getElementById('time').textContent = m+':'+s;
-                document.getElementById('stat-coins').textContent = this.stats.coins;
-                document.getElementById('stat-enemies').textContent = this.stats.enemies;
+                this.running = false;
+                this.stats.time = this.time;
+                
+                let minutes = Math.floor(this.stats.time / 60).toString().padStart(2, '0');
+                let seconds = (this.stats.time % 60).toString().padStart(2, '0');
+                
+                document.getElementById('final-time').textContent = minutes + ':' + seconds;
+                document.getElementById('final-coins').textContent = this.stats.coins;
+                document.getElementById('final-enemies').textContent = this.stats.enemies;
+                
                 document.getElementById('game-screen').style.display = 'none';
                 document.getElementById('stats-screen').style.display = 'flex';
             }
             
+            // Игровой цикл
             loop() {
-                this.update(); this.render();
+                this.update();
+                this.render();
                 requestAnimationFrame(() => this.loop());
             }
         }
         
-        new Game();
+        // Запуск игры после загрузки страницы
+        window.onload = () => new Game();
     </script>
 </body>
 </html>
