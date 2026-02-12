@@ -4,191 +4,27 @@
     <meta charset="UTF-8">
     <title>Космическая игра</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #0a0a2a;
-            color: white;
-            font: 24px Arial;
-            text-align: center;
-        }
-        
-        .screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            background: rgba(10, 10, 42, 0.92);
-        }
-        
-        #game-screen,
-        #stats-screen {
-            display: none;
-        }
-        
-        button {
-            padding: 16px 48px;
-            background: linear-gradient(to bottom, #4a86e8, #2a5298);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 18px;
-            font-size: 22px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(74, 134, 232, 0.6);
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            background: linear-gradient(to bottom, #5a96f8, #3a62a8);
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 134, 232, 0.8);
-        }
-        
-        button:disabled {
-            background: #5a6a8a;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        #game {
-            width: 800px;
-            height: 600px;
-            position: relative;
-            background: #000 url('img/space.png') repeat;
-            margin: 20px auto;
-            overflow: hidden;
-            border: 4px solid #4a86e8;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(74, 134, 232, 0.7);
-        }
-        
-        .hud {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            text-align: left;
-            background: rgba(0, 10, 30, 0.85);
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #4a86e8;
-            min-width: 180px;
-            font-size: 20px;
-            z-index: 100;
-        }
-        
-        .health-bar {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 220px;
-            height: 30px;
-            background: #222;
-            border: 3px solid #444;
-            border-radius: 15px;
-            overflow: hidden;
-            z-index: 100;
-        }
-        
-        .health-fill {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(to right, #ff4444, #ffaa00, #44ff44);
-            border-radius: 12px;
-            transition: width 0.3s;
-        }
-        
-        .shield-indicator {
-            position: absolute;
-            top: 20px;
-            right: 260px;
-            width: 40px;
-            height: 40px;
-            background: #4a86e8;
-            border-radius: 50%;
-            border: 3px solid white;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 100;
-            box-shadow: 0 0 15px rgba(74, 134, 232, 0.8);
-        }
-        
-        .obj {
-            position: absolute;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        
-        .coin,
-        .box {
-            width: 50px;
-            height: 50px;
-        }
-        
-        .eb {
-            transform: scaleY(-1);
-        }
-        
-        h1 {
-            font-size: 56px;
-            margin-bottom: 35px;
-            color: #4a86e8;
-            text-shadow: 0 0 15px rgba(74, 134, 232, 0.8);
-            letter-spacing: 3px;
-        }
-        
-        .stats-item {
-            font-size: 32px;
-            margin: 20px 0;
-            color: #f1c40f;
-            text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
-        }
-        
-        .stats-label {
-            color: #4a86e8;
-            font-size: 26px;
-            margin-left: 10px;
-        }
-        
-        input {
-            padding: 16px;
-            font-size: 24px;
-            border: 3px solid #4a86e8;
-            border-radius: 50px;
-            margin: 25px;
-            text-align: center;
-            background: rgba(20, 20, 50, 0.8);
-            color: white;
-            width: 300px;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #a0c0ff;
-            box-shadow: 0 0 20px rgba(160, 192, 255, 0.6);
-        }
-        
-        .instructions {
-            background: rgba(30, 30, 60, 0.85);
-            padding: 15px 30px;
-            border-radius: 50px;
-            margin-top: 25px;
-            font-size: 18px;
-            border: 2px solid #4a86e8;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a2a; color: white; font: 24px Arial; text-align: center; }
+        .screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; background: rgba(10, 10, 42, 0.92); }
+        #game-screen, #stats-screen { display: none; }
+        button { padding: 16px 48px; background: linear-gradient(to bottom, #4a86e8, #2a5298); color: white; border: none; border-radius: 50px; cursor: pointer; margin: 18px; font-size: 22px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(74, 134, 232, 0.6); transition: all 0.3s; }
+        button:hover { background: linear-gradient(to bottom, #5a96f8, #3a62a8); transform: translateY(-2px); box-shadow: 0 7px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 134, 232, 0.8); }
+        button:disabled { background: #5a6a8a; cursor: not-allowed; transform: none; }
+        #game { width: 800px; height: 600px; position: relative; background: #000 url('img/space.png') repeat; margin: 20px auto; overflow: hidden; border: 4px solid #4a86e8; border-radius: 12px; box-shadow: 0 0 30px rgba(74, 134, 232, 0.7); }
+        .hud { position: absolute; top: 20px; left: 20px; text-align: left; background: rgba(0, 10, 30, 0.85); padding: 15px; border-radius: 10px; border: 2px solid #4a86e8; min-width: 180px; font-size: 20px; z-index: 100; }
+        .health-bar { position: absolute; top: 20px; right: 20px; width: 220px; height: 30px; background: #222; border: 3px solid #444; border-radius: 15px; overflow: hidden; z-index: 100; }
+        .health-fill { height: 100%; width: 100%; background: linear-gradient(to right, #ff4444, #ffaa00, #44ff44); border-radius: 12px; transition: width 0.3s; }
+        .shield-indicator { position: absolute; top: 20px; right: 260px; width: 40px; height: 40px; background: #4a86e8; border-radius: 50%; border: 3px solid white; opacity: 0; transition: opacity 0.3s; z-index: 100; box-shadow: 0 0 15px rgba(74, 134, 232, 0.8); }
+        .obj { position: absolute; background-size: contain; background-repeat: no-repeat; background-position: center; }
+        .coin, .box { width: 50px; height: 50px; }
+        .eb { transform: scaleY(-1); }
+        h1 { font-size: 56px; margin-bottom: 35px; color: #4a86e8; text-shadow: 0 0 15px rgba(74, 134, 232, 0.8); letter-spacing: 3px; }
+        .stats-item { font-size: 32px; margin: 20px 0; color: #f1c40f; text-shadow: 0 0 10px rgba(241, 196, 15, 0.7); }
+        .stats-label { color: #4a86e8; font-size: 26px; margin-left: 10px; }
+        input { padding: 16px; font-size: 24px; border: 3px solid #4a86e8; border-radius: 50px; margin: 25px; text-align: center; background: rgba(20, 20, 50, 0.8); color: white; width: 300px; }
+        input:focus { outline: none; border-color: #a0c0ff; box-shadow: 0 0 20px rgba(160, 192, 255, 0.6); }
+        .instructions { background: rgba(30, 30, 60, 0.85); padding: 15px 30px; border-radius: 50px; margin-top: 25px; font-size: 18px; border: 2px solid #4a86e8; }
     </style>
 </head>
 <body>
@@ -206,9 +42,7 @@
                 <div>Монеты: <span id="coins">0</span></div>
                 <div>Патроны: <span id="ammo">30</span></div>
             </div>
-            <div class="health-bar">
-                <div class="health-fill" id="health"></div>
-            </div>
+            <div class="health-bar"><div class="health-fill" id="health"></div></div>
             <div class="shield-indicator" id="shield"></div>
         </div>
     </div>
@@ -223,179 +57,229 @@
     </div>
 
     <script>
-        // Загрузка изображений
-        const images = {};
-        ['space', 'rocket', 'asteroid', 'box', 'bullet', 'enemy', 'money'].forEach(name => {
+        // ============ ЗАГРУЗКА КАРТИНОК ============
+        
+        var images = {};
+        var imageNames = ['space', 'rocket', 'asteroid', 'box', 'bullet', 'enemy', 'money'];
+        
+        for (var i = 0; i < imageNames.length; i++) {
+            var name = imageNames[i];
             images[name] = new Image();
             images[name].src = 'img/' + name + '.png';
-        });
+        }
         
-        class Game {
-            constructor() {
-                this.gameArea = document.getElementById('game');
-                this.width = 800;
-                this.height = 600;
-                
-                this.time = 0;
-                this.coins = 0;
-                this.ammo = 30;
-                this.health = 100;
-                
-                this.running = false;
-                this.hasShield = false;
-                this.keys = {};
-                
-                // Игрок
-                this.player = {
-                    x: this.width / 2 - 30,
-                    y: this.height - 80,
-                    width: 60,
-                    height: 80,
-                    speed: 7,
-                    img: images.rocket
-                };
-                
-                this.reset();
-                
-                this.stats = {
-                    time: 0,
-                    coins: 0,
-                    enemies: 0
-                };
-                
-                this.lastEnemyTime = 0;
-                this.lastShotTime = 0;
-                
-                this.init();
-            }
+        // ============ ГЛАВНЫЙ ОБЪЕКТ ИГРЫ ============
+        
+        var game = {
+            // Настройки
+            gameArea: document.getElementById('game'),
+            width: 800,
+            height: 600,
             
-            // Очистка всех игровых объектов
-            reset() {
-                this.enemies = [];
-                this.asteroids = [];
-                this.coinItems = [];
-                this.boxes = [];
-                this.playerBullets = [];
-                this.enemyBullets = [];
-            }
+            // Счетчики
+            time: 0,
+            coins: 0,
+            ammo: 30,
+            health: 100,
             
-            // Инициализация обработчиков событий
-            init() {
-                // Включение кнопки "Начать" при вводе имени
-                document.getElementById('name').oninput = event => {
-                    document.getElementById('start-btn').disabled = event.target.value.trim() === '';
+            // Состояние
+            running: false,
+            hasShield: false,
+            keys: {},
+            
+            // Игрок
+            player: {
+                x: 0,
+                y: 0,
+                width: 60,
+                height: 80,
+                speed: 7,
+                img: null
+            },
+            
+            // Массивы объектов
+            enemies: [],
+            asteroids: [],
+            coinItems: [],
+            boxes: [],
+            playerBullets: [],
+            enemyBullets: [],
+            
+            // Статистика
+            stats: {
+                time: 0,
+                coins: 0,
+                enemies: 0
+            },
+            
+            lastEnemyTime: 0,
+            lastShotTime: 0,
+            
+            // ============ ИНИЦИАЛИЗАЦИЯ ============
+            init: function() {
+                var self = game;
+                
+                // Начальная позиция игрока
+                self.player.x = self.width / 2 - 30;
+                self.player.y = self.height - 80;
+                self.player.img = images.rocket;
+                
+                // Обработка ввода имени
+                document.getElementById('name').oninput = function(event) {
+                    document.getElementById('start-btn').disabled = (event.target.value.trim() === '');
                 };
                 
-                // Кнопки управления
-                document.getElementById('start-btn').onclick = () => this.start();
-                document.getElementById('restart-btn').onclick = () => this.start();
-                document.getElementById('menu-btn').onclick = () => {
+                // Кнопки
+                document.getElementById('start-btn').onclick = function() {
+                    self.start();
+                };
+                
+                document.getElementById('restart-btn').onclick = function() {
+                    self.start();
+                };
+                
+                document.getElementById('menu-btn').onclick = function() {
                     document.getElementById('stats-screen').style.display = 'none';
                     document.getElementById('start-screen').style.display = 'flex';
                 };
                 
-                // Управление клавишами
-                document.onkeydown = event => this.keys[event.key.toLowerCase()] = true;
-                document.onkeyup = event => this.keys[event.key.toLowerCase()] = false;
+                // Клавиши
+                document.onkeydown = function(event) {
+                    self.keys[event.key.toLowerCase()] = true;
+                };
+                
+                document.onkeyup = function(event) {
+                    self.keys[event.key.toLowerCase()] = false;
+                };
                 
                 // Генерация объектов
-                setInterval(() => { if (this.running) this.addAsteroid(); }, 2000);
-                setInterval(() => { if (this.running) this.addCoin(); }, 2000);
-                setInterval(() => { if (this.running) this.addBox(); }, 10000);
-                setInterval(() => { if (this.running) this.addEnemy(); }, 10000);
-                setInterval(() => { if (this.running) { this.time++; this.updateTime(); }}, 1000);
+                setInterval(function() {
+                    if (self.running) self.addAsteroid();
+                }, 2000);
+                
+                setInterval(function() {
+                    if (self.running) self.addCoin();
+                }, 2000);
+                
+                setInterval(function() {
+                    if (self.running) self.addBox();
+                }, 10000);
+                
+                setInterval(function() {
+                    if (self.running) self.addEnemy();
+                }, 10000);
+                
+                // Время
+                setInterval(function() {
+                    if (self.running) {
+                        self.time++;
+                        self.updateTime();
+                    }
+                }, 1000);
                 
                 // Стрельба
-                setInterval(() => { 
-                    if (this.running && this.keys[' '] && this.ammo > 0 && Date.now() - this.lastShotTime > 200) {
-                        this.shoot();
+                setInterval(function() {
+                    if (self.running && self.keys[' '] && self.ammo > 0 && Date.now() - self.lastShotTime > 200) {
+                        self.shoot();
                     }
                 }, 50);
                 
-                // Запуск игрового цикла
-                this.loop();
-            }
+                // Запуск игры
+                self.loop();
+            },
             
-            // Начало новой игры
-            start() {
+            // ============ НАЧАЛО ИГРЫ ============
+            start: function() {
+                var self = game;
+                
+                // Показать игровой экран
                 document.getElementById('start-screen').style.display = 'none';
                 document.getElementById('stats-screen').style.display = 'none';
                 document.getElementById('game-screen').style.display = 'block';
                 
-                this.time = 0;
-                this.coins = 0;
-                this.ammo = 30;
-                this.health = 100;
-                this.running = true;
-                this.hasShield = false;
+                // Сбросить всё
+                self.time = 0;
+                self.coins = 0;
+                self.ammo = 30;
+                self.health = 100;
+                self.running = true;
+                self.hasShield = false;
                 
-                this.player.x = this.width / 2 - 30;
-                this.player.y = this.height - 80;
-                this.player.img = images.rocket;
+                self.player.x = self.width / 2 - 30;
+                self.player.y = self.height - 80;
+                self.player.img = images.rocket;
                 
-                this.reset();
+                self.enemies = [];
+                self.asteroids = [];
+                self.coinItems = [];
+                self.boxes = [];
+                self.playerBullets = [];
+                self.enemyBullets = [];
                 
-                this.stats = { time: 0, coins: 0, enemies: 0 };
-                this.lastEnemyTime = Date.now();
-                this.lastShotTime = 0;
+                self.stats = { time: 0, coins: 0, enemies: 0 };
+                self.lastEnemyTime = Date.now();
+                self.lastShotTime = 0;
                 
-                this.updateHealthBar();
-                
+                self.updateHealthBar();
                 document.getElementById('timer').textContent = '00:00';
                 document.getElementById('coins').textContent = '0';
                 document.getElementById('ammo').textContent = '30';
                 document.getElementById('shield').style.opacity = '0';
-            }
+            },
             
-            // Обновление таймера
-            updateTime() {
-                let minutes = Math.floor(this.time / 60).toString().padStart(2, '0');
-                let seconds = (this.time % 60).toString().padStart(2, '0');
+            // ============ ВРЕМЯ ============
+            updateTime: function() {
+                var self = game;
+                var minutes = Math.floor(self.time / 60);
+                var seconds = self.time % 60;
+                if (minutes < 10) minutes = '0' + minutes;
+                if (seconds < 10) seconds = '0' + seconds;
                 document.getElementById('timer').textContent = minutes + ':' + seconds;
-            }
+            },
             
-            // Добавление астероида
-            addAsteroid() {
-                this.asteroids.push({
-                    x: Math.random() * (this.width - 60),
+            // ============ ДОБАВЛЕНИЕ ОБЪЕКТОВ ============
+            addAsteroid: function() {
+                var self = game;
+                self.asteroids.push({
+                    x: Math.random() * (self.width - 60),
                     y: -60,
                     width: 60,
                     height: 60,
                     speed: 3 + Math.random() * 2,
                     img: images.asteroid
                 });
-            }
+            },
             
-            // Добавление монеты
-            addCoin() {
-                this.coinItems.push({
-                    x: Math.random() * (this.width - 50),
+            addCoin: function() {
+                var self = game;
+                self.coinItems.push({
+                    x: Math.random() * (self.width - 50),
                     y: -60,
                     width: 50,
                     height: 50,
                     speed: 2 + Math.random(),
                     img: images.money
                 });
-            }
+            },
             
-            // Добавление ящика с патронами
-            addBox() {
-                this.boxes.push({
-                    x: Math.random() * (this.width - 50),
+            addBox: function() {
+                var self = game;
+                self.boxes.push({
+                    x: Math.random() * (self.width - 50),
                     y: -60,
                     width: 50,
                     height: 50,
                     speed: 2 + Math.random(),
                     img: images.box
                 });
-            }
+            },
             
-            // Добавление врага
-            addEnemy() {
-                if (Date.now() - this.lastEnemyTime < 10000) return;
+            addEnemy: function() {
+                var self = game;
+                if (Date.now() - self.lastEnemyTime < 10000) return;
                 
-                this.enemies.push({
-                    x: Math.random() * (this.width - 100),
+                self.enemies.push({
+                    x: Math.random() * (self.width - 100),
                     y: 50,
                     width: 100,
                     height: 70,
@@ -405,79 +289,82 @@
                     img: images.enemy
                 });
                 
-                this.lastEnemyTime = Date.now();
-            }
+                self.lastEnemyTime = Date.now();
+            },
             
-            // Стрельба игрока
-            shoot() {
-                this.ammo--;
-                this.lastShotTime = Date.now();
-                document.getElementById('ammo').textContent = this.ammo;
+            // ============ СТРЕЛЬБА ============
+            shoot: function() {
+                var self = game;
+                self.ammo--;
+                self.lastShotTime = Date.now();
+                document.getElementById('ammo').textContent = self.ammo;
                 
-                this.playerBullets.push({
-                    x: this.player.x + 26,
-                    y: this.player.y - 30,
+                self.playerBullets.push({
+                    x: self.player.x + 26,
+                    y: self.player.y - 30,
                     width: 12,
                     height: 35,
                     speed: -12,
                     img: images.bullet
                 });
-            }
+            },
             
-            // Проверка столкновений
-            checkCollision(a, b) {
+            // ============ СТОЛКНОВЕНИЯ ============
+            checkCollision: function(a, b) {
                 return a.x < b.x + b.width - 10 && 
                        a.x + a.width - 10 > b.x && 
                        a.y < b.y + b.height - 10 && 
                        a.y + a.height - 10 > b.y;
-            }
+            },
             
-            // Активация щита
-            activateShield() {
-                this.hasShield = true;
-                this.player.img = images.bullet;
+            // ============ ЩИТ ============
+            activateShield: function() {
+                var self = game;
+                self.hasShield = true;
+                self.player.img = images.bullet;
                 document.getElementById('shield').style.opacity = '1';
                 
-                setTimeout(() => {
-                    this.hasShield = false;
-                    this.player.img = images.rocket;
+                setTimeout(function() {
+                    self.hasShield = false;
+                    self.player.img = images.rocket;
                     document.getElementById('shield').style.opacity = '0';
                 }, 5000);
-            }
+            },
             
-            // Обновление состояния игры
-            update() {
-                if (!this.running) return;
+            // ============ ОБНОВЛЕНИЕ ============
+            update: function() {
+                var self = game;
+                if (!self.running) return;
                 
                 // Управление игроком
-                this.player.vx = 0;
-                this.player.vy = 0;
+                self.player.vx = 0;
+                self.player.vy = 0;
                 
-                if (this.keys['a'] || this.keys['arrowleft']) this.player.vx = -this.player.speed;
-                if (this.keys['d'] || this.keys['arrowright']) this.player.vx = this.player.speed;
-                if (this.keys['w'] || this.keys['arrowup']) this.player.vy = -this.player.speed;
-                if (this.keys['s'] || this.keys['arrowdown']) this.player.vy = this.player.speed;
+                if (self.keys['a'] || self.keys['arrowleft'] || self.keys['ф']) self.player.vx = -self.player.speed;
+                if (self.keys['d'] || self.keys['arrowright'] || self.keys['в']) self.player.vx = self.player.speed;
+                if (self.keys['w'] || self.keys['arrowup'] || self.keys['ц']) self.player.vy = -self.player.speed;
+                if (self.keys['s'] || self.keys['arrowdown'] || self.keys['ы']) self.player.vy = self.player.speed;
                 
-                this.player.x += this.player.vx;
-                this.player.y += this.player.vy;
+                self.player.x += self.player.vx;
+                self.player.y += self.player.vy;
                 
-                // Ограничение границ
-                this.player.x = Math.max(0, Math.min(this.player.x, this.width - this.player.width));
-                this.player.y = Math.max(0, Math.min(this.player.y, this.height - this.player.height));
+                // Границы экрана
+                if (self.player.x < 0) self.player.x = 0;
+                if (self.player.x > self.width - self.player.width) self.player.x = self.width - self.player.width;
+                if (self.player.y < 0) self.player.y = 0;
+                if (self.player.y > self.height - self.player.height) self.player.y = self.height - self.player.height;
                 
-                // Обновление врагов
-                for (let i = this.enemies.length - 1; i >= 0; i--) {
-                    let enemy = this.enemies[i];
+                // Враги
+                for (var i = self.enemies.length - 1; i >= 0; i--) {
+                    var enemy = self.enemies[i];
                     enemy.x += enemy.vx;
                     
-                    // Отскок от стен
-                    if (enemy.x <= 0 || enemy.x >= this.width - enemy.width) {
+                    if (enemy.x <= 0 || enemy.x >= self.width - enemy.width) {
                         enemy.vx *= -1;
                     }
                     
-                    // Стрельба врагов
                     if (Date.now() - enemy.lastShot > 1000 && Math.random() > 0.7) {
-                        this.enemyBullets.push({
+                        self.enemyBullets.push({
                             x: enemy.x + enemy.width / 2 - 6,
                             y: enemy.y + enemy.height + 5,
                             width: 12,
@@ -489,185 +376,174 @@
                     }
                 }
                 
-                // Обновление астероидов
-                for (let i = this.asteroids.length - 1; i >= 0; i--) {
-                    let asteroid = this.asteroids[i];
+                // Астероиды
+                for (var i = self.asteroids.length - 1; i >= 0; i--) {
+                    var asteroid = self.asteroids[i];
                     asteroid.y += asteroid.speed;
                     
-                    // Удаление пуль при столкновении с астероидом
-                    for (let j = this.playerBullets.length - 1; j >= 0; j--) {
-                        if (this.checkCollision(this.playerBullets[j], asteroid)) {
-                            this.playerBullets.splice(j, 1);
-                            break;
-                        }
+                    if (self.checkCollision(self.player, asteroid) && !self.hasShield) {
+                        self.health -= 20;
+                        self.updateHealthBar();
+                        if (self.health <= 0) self.end();
                     }
                     
-                    for (let j = this.enemyBullets.length - 1; j >= 0; j--) {
-                        if (this.checkCollision(this.enemyBullets[j], asteroid)) {
-                            this.enemyBullets.splice(j, 1);
-                            break;
-                        }
-                    }
-                    
-                    // Столкновение с игроком
-                    if (this.checkCollision(this.player, asteroid) && !this.hasShield) {
-                        this.health -= 20;
-                        this.updateHealthBar();
-                        if (this.health <= 0) this.end();
-                    }
-                    
-                    // Удаление астероидов
-                    if (asteroid.y > this.height || this.checkCollision(this.player, asteroid)) {
-                        this.asteroids.splice(i, 1);
+                    if (asteroid.y > self.height || self.checkCollision(self.player, asteroid)) {
+                        self.asteroids.splice(i, 1);
                     }
                 }
                 
-                // Обновление монет
-                for (let i = this.coinItems.length - 1; i >= 0; i--) {
-                    let coin = this.coinItems[i];
+                // Монеты
+                for (var i = self.coinItems.length - 1; i >= 0; i--) {
+                    var coin = self.coinItems[i];
                     coin.y += coin.speed;
                     
-                    if (this.checkCollision(this.player, coin)) {
-                        this.coins++;
-                        document.getElementById('coins').textContent = this.coins;
-                        this.stats.coins = this.coins;
+                    if (self.checkCollision(self.player, coin)) {
+                        self.coins++;
+                        document.getElementById('coins').textContent = self.coins;
+                        self.stats.coins = self.coins;
                         
-                        // Активация щита каждые 5 монет
-                        if (this.coins > 0 && this.coins % 5 === 0 && !this.hasShield) {
-                            this.activateShield();
+                        if (self.coins > 0 && self.coins % 5 === 0 && !self.hasShield) {
+                            self.activateShield();
                         }
                         
-                        this.coinItems.splice(i, 1);
-                    } else if (coin.y > this.height) {
-                        this.coinItems.splice(i, 1);
+                        self.coinItems.splice(i, 1);
+                    } else if (coin.y > self.height) {
+                        self.coinItems.splice(i, 1);
                     }
                 }
                 
-                // Обновление ящиков
-                for (let i = this.boxes.length - 1; i >= 0; i--) {
-                    let box = this.boxes[i];
+                // Ящики
+                for (var i = self.boxes.length - 1; i >= 0; i--) {
+                    var box = self.boxes[i];
                     box.y += box.speed;
                     
-                    if (this.checkCollision(this.player, box)) {
-                        this.ammo += 10;
-                        document.getElementById('ammo').textContent = this.ammo;
-                        this.boxes.splice(i, 1);
-                    } else if (box.y > this.height) {
-                        this.boxes.splice(i, 1);
+                    if (self.checkCollision(self.player, box)) {
+                        self.ammo += 10;
+                        document.getElementById('ammo').textContent = self.ammo;
+                        self.boxes.splice(i, 1);
+                    } else if (box.y > self.height) {
+                        self.boxes.splice(i, 1);
                     }
                 }
                 
-                // Обновление пуль игрока
-                for (let i = this.playerBullets.length - 1; i >= 0; i--) {
-                    let bullet = this.playerBullets[i];
+                // Пули игрока
+                for (var i = self.playerBullets.length - 1; i >= 0; i--) {
+                    var bullet = self.playerBullets[i];
                     bullet.y += bullet.speed;
-                    let hit = false;
+                    var hit = false;
                     
-                    // Проверка попадания во врагов
-                    for (let j = this.enemies.length - 1; j >= 0; j--) {
-                        if (this.checkCollision(bullet, this.enemies[j])) {
-                            this.enemies[j].health -= 10;
-                            
-                            if (this.enemies[j].health <= 0) {
-                                this.enemies.splice(j, 1);
-                                this.stats.enemies++;
-                                this.lastEnemyTime = Date.now();
+                    for (var j = self.enemies.length - 1; j >= 0; j--) {
+                        if (self.checkCollision(bullet, self.enemies[j])) {
+                            self.enemies[j].health -= 10;
+                            if (self.enemies[j].health <= 0) {
+                                self.enemies.splice(j, 1);
+                                self.stats.enemies++;
+                                self.lastEnemyTime = Date.now();
                             }
-                            
                             hit = true;
                             break;
                         }
                     }
                     
                     if (hit || bullet.y < -30) {
-                        this.playerBullets.splice(i, 1);
+                        self.playerBullets.splice(i, 1);
                     }
                 }
                 
-                // Обновление пуль врагов
-                for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
-                    let bullet = this.enemyBullets[i];
+                // Пули врагов
+                for (var i = self.enemyBullets.length - 1; i >= 0; i--) {
+                    var bullet = self.enemyBullets[i];
                     bullet.y += bullet.speed;
                     
-                    if (this.checkCollision(bullet, this.player) && !this.hasShield) {
-                        this.health -= 10;
-                        this.updateHealthBar();
-                        if (this.health <= 0) this.end();
-                        this.enemyBullets.splice(i, 1);
-                    } else if (bullet.y > this.height) {
-                        this.enemyBullets.splice(i, 1);
+                    if (self.checkCollision(bullet, self.player) && !self.hasShield) {
+                        self.health -= 10;
+                        self.updateHealthBar();
+                        if (self.health <= 0) self.end();
+                        self.enemyBullets.splice(i, 1);
+                    } else if (bullet.y > self.height) {
+                        self.enemyBullets.splice(i, 1);
                     }
                 }
                 
-                // Столкновение с врагами
-                for (let i = this.enemies.length - 1; i >= 0; i--) {
-                    if (this.checkCollision(this.player, this.enemies[i]) && !this.hasShield) {
-                        this.enemies[i].health -= 20;
-                        
-                        if (this.enemies[i].health <= 0) {
-                            this.enemies.splice(i, 1);
-                            this.stats.enemies++;
-                            this.lastEnemyTime = Date.now();
+                // Столкновения с врагами
+                for (var i = self.enemies.length - 1; i >= 0; i--) {
+                    if (self.checkCollision(self.player, self.enemies[i]) && !self.hasShield) {
+                        self.enemies[i].health -= 20;
+                        if (self.enemies[i].health <= 0) {
+                            self.enemies.splice(i, 1);
+                            self.stats.enemies++;
+                            self.lastEnemyTime = Date.now();
                         } else {
-                            this.health -= 10;
-                            this.updateHealthBar();
-                            if (this.health <= 0) this.end();
+                            self.health -= 10;
+                            self.updateHealthBar();
+                            if (self.health <= 0) self.end();
                         }
                     }
                 }
-            }
+            },
             
-            // Обновление полосы здоровья
-            updateHealthBar() {
-                let bar = document.getElementById('health');
-                bar.style.width = this.health + '%';
+            // ============ ЗДОРОВЬЕ ============
+            updateHealthBar: function() {
+                var self = game;
+                var bar = document.getElementById('health');
+                bar.style.width = self.health + '%';
                 
-                if (this.health < 30) {
+                if (self.health < 30) {
                     bar.style.background = '#ff3333';
-                } else if (this.health < 60) {
+                } else if (self.health < 60) {
                     bar.style.background = '#ffcc00';
                 } else {
                     bar.style.background = '#44cc44';
                 }
-            }
+            },
             
-            // Отрисовка игры
-            render() {
-                if (!this.running) return;
+            // ============ ОТРИСОВКА ============
+            render: function() {
+                var self = game;
+                if (!self.running) return;
                 
-                // Очистка игрового поля (оставляем только HUD и индикатор щита)
-                while (this.gameArea.children.length > 3) {
-                    this.gameArea.removeChild(this.gameArea.lastChild);
+                // Удаляем старые объекты
+                while (self.gameArea.children.length > 3) {
+                    self.gameArea.removeChild(self.gameArea.lastChild);
                 }
                 
-                // Отрисовка объектов
-                this.draw(this.player, 'player');
-                this.enemies.forEach(enemy => this.draw(enemy, 'enemy'));
-                this.asteroids.forEach(asteroid => this.draw(asteroid, 'asteroid'));
+                // Рисуем игрока
+                self.draw(self.player, 'player');
                 
-                this.coinItems.forEach(coin => {
-                    let element = this.draw(coin, 'coin');
-                    element.style.width = '50px';
-                    element.style.height = '50px';
-                });
+                // Рисуем всё остальное
+                for (var i = 0; i < self.enemies.length; i++) {
+                    self.draw(self.enemies[i], 'enemy');
+                }
                 
-                this.boxes.forEach(box => {
-                    let element = this.draw(box, 'box');
-                    element.style.width = '50px';
-                    element.style.height = '50px';
-                });
+                for (var i = 0; i < self.asteroids.length; i++) {
+                    self.draw(self.asteroids[i], 'asteroid');
+                }
                 
-                this.playerBullets.forEach(bullet => this.draw(bullet, 'bullet'));
+                for (var i = 0; i < self.coinItems.length; i++) {
+                    var el = self.draw(self.coinItems[i], 'coin');
+                    el.style.width = '50px';
+                    el.style.height = '50px';
+                }
                 
-                this.enemyBullets.forEach(bullet => {
-                    let element = this.draw(bullet, 'eb');
-                    element.style.transform = 'scaleY(-1)';
-                });
-            }
+                for (var i = 0; i < self.boxes.length; i++) {
+                    var el = self.draw(self.boxes[i], 'box');
+                    el.style.width = '50px';
+                    el.style.height = '50px';
+                }
+                
+                for (var i = 0; i < self.playerBullets.length; i++) {
+                    self.draw(self.playerBullets[i], 'bullet');
+                }
+                
+                for (var i = 0; i < self.enemyBullets.length; i++) {
+                    var el = self.draw(self.enemyBullets[i], 'eb');
+                    el.style.transform = 'scaleY(-1)';
+                }
+            },
             
-            // Создание игрового объекта на экране
-            draw(object, className) {
-                let element = document.createElement('div');
+            // ============ ОТРИСОВКА ОДНОГО ОБЪЕКТА ============
+            draw: function(object, className) {
+                var element = document.createElement('div');
                 element.className = 'obj ' + className;
                 
                 if (object.img && object.img.complete) {
@@ -679,36 +555,44 @@
                 element.style.width = object.width + 'px';
                 element.style.height = object.height + 'px';
                 
-                this.gameArea.appendChild(element);
+                game.gameArea.appendChild(element);
                 return element;
-            }
+            },
             
-            // Конец игры
-            end() {
-                this.running = false;
-                this.stats.time = this.time;
+            // ============ КОНЕЦ ИГРЫ ============
+            end: function() {
+                var self = game;
+                self.running = false;
+                self.stats.time = self.time;
                 
-                let minutes = Math.floor(this.stats.time / 60).toString().padStart(2, '0');
-                let seconds = (this.stats.time % 60).toString().padStart(2, '0');
+                var minutes = Math.floor(self.stats.time / 60);
+                var seconds = self.stats.time % 60;
+                if (minutes < 10) minutes = '0' + minutes;
+                if (seconds < 10) seconds = '0' + seconds;
                 
                 document.getElementById('final-time').textContent = minutes + ':' + seconds;
-                document.getElementById('final-coins').textContent = this.stats.coins;
-                document.getElementById('final-enemies').textContent = this.stats.enemies;
+                document.getElementById('final-coins').textContent = self.stats.coins;
+                document.getElementById('final-enemies').textContent = self.stats.enemies;
                 
                 document.getElementById('game-screen').style.display = 'none';
                 document.getElementById('stats-screen').style.display = 'flex';
-            }
+            },
             
-            // Игровой цикл
-            loop() {
-                this.update();
-                this.render();
-                requestAnimationFrame(() => this.loop());
+            // ============ ИГРОВОЙ ЦИКЛ ============
+            loop: function() {
+                var self = game;
+                self.update();
+                self.render();
+                requestAnimationFrame(function() {
+                    self.loop();
+                });
             }
-        }
+        };
         
-        // Запуск игры после загрузки страницы
-        window.onload = () => new Game();
+        // ============ ЗАПУСК ============
+        window.onload = function() {
+            game.init();
+        };
     </script>
 </body>
 </html>
