@@ -1,7 +1,7 @@
 # 🚀 Rocket Simulator — Космический симулятор на HTML/CSS/JS
 
 > 🎮 Управляй ракетой, уворачивайся от астероидов и собирай монеты в этом динамичном 2D-симуляторе, написанном на чистом HTML, CSS и JavaScript с использованием jQuery.  
-> 💡 **Нет сервера, нет зависимостей — просто открой `index.html` и играй!**
+> 💡 **Нет сервера, нет зависимостей — просто открой `index.html`/`main.html` и играй!**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![HTML5](https://img.shields.io/badge/HTML5-все_браузеры-orange)
